@@ -3,8 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+// use DB;
 
-class CreateUsersTable extends Migration
+class AddBalanceContraintInUserInfoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('phone_number',15)->unique();
-            $table->string('password',50);
-            $table->timestamps();
-        });
+        DB::statement('ALTER TABLE user_info ADD CONSTRAINT check_balance CHECK (balance >= 0);');
     }
 
     /**
@@ -28,6 +24,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::table('user_info', function (Blueprint $table) {
+            //
+        });
     }
 }
