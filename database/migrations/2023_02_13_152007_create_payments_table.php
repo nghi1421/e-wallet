@@ -24,8 +24,8 @@ class CreatePaymentsTable extends Migration
             $table->tinyInteger('type');
 
 
-            $table->json('source');
-            $table->json('des');
+            $table->string('source', 20);
+            $table->string('des', 20);
 
             $table->string('note', 200)->nullable();
             $table->decimal("money", 19, 4);
