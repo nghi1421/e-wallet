@@ -14,7 +14,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -33,11 +33,15 @@ class RegisterRequest extends FormRequest
                 'min: 9',
                 'unique:users,phone_number'
             ],
+            'checked'=> [
+                'required',
+                'boolean'
+            ],
             'password' => [
                 'required',
-                'max:50',
                 'confirmed',
-                Password::min(8)->max(50)->mixedCase()->numbers()->symbols(),
+                'max:50',
+                Password::min(8)->mixedCase()->numbers()->symbols(),
             ],
             'name' => [
                 'required',

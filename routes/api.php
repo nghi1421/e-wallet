@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controller\AuthController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LinkedController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,11 +19,20 @@ use App\Http\Controller\AuthController;
 //     return $request->user();
 // });
 
-Route::prefix('/auth')->group(function() {
-    Route::middleware('auth:santum')->group(function () {
-        Route::post('/login', ['AuthController','login']);
-    });
-    
-    Route::post('/register', ['AuthController','register']);
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource( '/link-bank-account', LinkedController::class);
+    // Route::get("/check", function (){
+    //     return "123";
+    // });
 });
+    
+
+Route::post('/register', [AuthController::class,'register']);
+Route::post('/fake-otp', [AuthController::class,'fakeOTPCode']);
+Route::post('/check-phone-number', [AuthController::class,'checkOTPCode']);
+Route::post('/login', [AuthController::class,'login']);
+
+
+// Route::get('/test', [AuthController::Class, 'test']);
+
+// Route::get('/get-all-user', [AuthController::Class, 'listUser']);
