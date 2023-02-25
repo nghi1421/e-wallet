@@ -44,27 +44,27 @@ class LinkedController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLinked $request, $phone_number)
+    public function store(StoreLinked $request)
     {
-        if($this->linkedRepository->checkExistsBank($request['bank_account_number'], $request['bank_id'])){
+        $data = $request->all();
+        $bank = $this->linkedRepository->checkExistsBank($data['bank_account_number'], $data['bank_id']);
+
+        if($bank){
             return response()->json([
-                'status' => "fail",
-                "msg" => "Tài khoản ngân hàng đã được liên kết.",
+                'status' => 'success',
+                'msg' => "Tài khoản đã liên kết",
             ]);
         }
 
         if($request['checked']){
-            $data = $request->all();
-            $data['phone_number'] = $phone_number;
-            
-            $new_linked = $this->linkedRepository->create($data);
 
-            unset($new_linked['checked']);
+            $new_linked = $this->linkedRepository->storeLinked($data);
 
             return response()->json([
                 'status' => 'success',
                 'data' => $new_linked
             ]);
+
         }
         else{
             return response()->json([
@@ -85,7 +85,7 @@ class LinkedController extends Controller
     {
         return response()->json([
             'status' => 'success',
-            'data'=> $this->linkedRepository->getAllLinked()
+            'data'=> $this->linkedRepository->findLinkedById($id)
         ]);
     }
 
@@ -120,7 +120,18 @@ class LinkedController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = $this->linkedRepository->removeLinked($id);
+        if($result)
+            return response()->json([
+                'status' => 'success',
+                // 'data'=> $result,
+                'msg' => 'Loại bỏ liên kết ngân hàng thành công.'
+            ]);
+        else
+            return response()->json([
+                'status' => 'fail',
+                'msg' => 'Loại bỏ liên kết ngân hàng thất bại.'
+            ]);
     }
 
     public function getLinked($phone_number){

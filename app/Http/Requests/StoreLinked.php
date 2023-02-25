@@ -24,6 +24,7 @@ class StoreLinked extends FormRequest
     public function rules()
     {
         return [
+            'phone_number' => ['required'],
             'bank_id' => [
                 'required',
             ],

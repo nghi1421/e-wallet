@@ -21,7 +21,7 @@ interface BaseRepositoryInterface {
 
     public function delete($id);
 
-    public function create(array $data);
+    public function create($data);
 
     public function update(array $condition, array $data);
 

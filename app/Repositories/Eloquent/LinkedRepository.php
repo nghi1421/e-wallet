@@ -53,13 +53,28 @@ class LinkedRepository extends BaseRepository implements LinkedRepositoryInterfa
         }
     }
 
-    public function checkExistsBank($bank_account, $bank_id){
-        $bank = $this->model_bank->whereColumn('bank_account_number', $bank_account);
-        if($bank){
-            if($bank['bank_id'] == $bank_id)
-                return true;
+    public function checkExistsBank($bank_account_number, $bank_id){
+        $bank = $this->model_bank->whereColumn('bank_account_number', $bank_account_number);
+        return $bank;
+    }
+
+    public function storeLinked($data){
+
+        $new_linked = $this->model_linked->create($data);
+        unset($new_linked['checked']);
+        return $new_linked;
+
+    }
+
+    public function findLinkedById($id){
+        return $this->model_linked->findOrFail($id);
+    }
+
+    public function removeLinked($id){
+        $linked = $this->model_linked->find($id);
+        if($linked){
+            return $linked->delete();
         }
         return false;
-        
     }
 }

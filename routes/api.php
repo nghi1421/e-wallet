@@ -20,7 +20,8 @@ use App\Http\Controllers\LinkedController;
 // });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource( '/{phone_number}/link-bank-account', LinkedController::class);
+    Route::get('/link-bank-account/{phone_number}', [LinkedController::class, 'index']);
+    Route::resource( '/link-bank-account', LinkedController::class);
     Route::get( '/get-linked/{phone_number}', [ LinkedController::class, 'getLinked']);
     // Route::get("/check", function (){
     //     return "123";

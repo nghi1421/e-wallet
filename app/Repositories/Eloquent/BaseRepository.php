@@ -46,14 +46,13 @@ class BaseRepository implements BaseRepositoryInterface{
 
     public function destroy($value)
     {
-        return $this->model->destroy($value);
+        return $this->destroy($value);
     }
 
     public function delete($id)
     {
-        $model = $this->find($id);
-
-        return $model->delete();
+        $object = $this->model->findOrFail($id);
+        return $object->delete();
     }
 
     public function create($data)
