@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Http\Models\UserInfo;
+use App\Http\Models\Linked;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $table = 'users';
-    protected $primaryKey   = 'id';
+    protected $primaryKey   = 'phone_number';
 
     public $timestamps = true;
     /**
@@ -23,11 +23,24 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'phone_number','password',
+        'phone_number',
+        'name',
+        'password',
+        'dob',
+        'address',
+        'balance',
     ];
 
-    public function userInfo(){
-        return $this->belongTo(UserInfo::class);
+    protected $casts = [
+        'phone_number' => 'string'
+    ];
+
+    // protected $hidden = [
+    //     'password'
+    // ];
+
+    public function linked(){
+        return $this->hasMany(Linked::class);
     }
 
 }

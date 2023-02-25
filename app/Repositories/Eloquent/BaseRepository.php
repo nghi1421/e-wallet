@@ -56,7 +56,7 @@ class BaseRepository implements BaseRepositoryInterface{
         return $model->delete();
     }
 
-    public function create(array $data)
+    public function create($data)
     {
         return $this->model->create($data);
     }

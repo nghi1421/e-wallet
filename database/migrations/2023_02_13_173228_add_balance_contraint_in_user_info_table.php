@@ -14,7 +14,7 @@ class AddBalanceContraintInUserInfoTable extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE user_info ADD CONSTRAINT check_balance CHECK (balance >= 0);');
+        DB::statement('ALTER TABLE users ADD CONSTRAINT check_balance CHECK (balance >= 0);');
     }
 
     /**

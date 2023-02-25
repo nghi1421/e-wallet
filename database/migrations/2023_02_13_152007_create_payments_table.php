@@ -23,9 +23,14 @@ class CreatePaymentsTable extends Migration
 
             $table->tinyInteger('type');
 
+            $table->string('bank_account_source', 20)->nullabe();
+            $table->string('bank_account_des', 20)->nullabe();
+            $table->string('phone_number_source', 15)->nullabe();
+            $table->string('phone_number_des', 15)->nullabe();
 
-            $table->string('source', 20);
-            $table->string('des', 20);
+            $table->foreign('phone_number_source')->references('phone_number')->on('users');
+            $table->foreign('phone_number_des')->references('phone_number')->on('users');
+
 
             $table->string('note', 200)->nullable();
             $table->decimal("money", 19, 4);

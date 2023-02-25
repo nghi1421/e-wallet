@@ -10,11 +10,22 @@ use App\Models\UserInfo;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
 use Illuminate\Support\Facades\DB; 
 
 class AuthController extends Controller
 {
     protected $userRepository;
+
+
+    // protected function credentials(Request $request)
+    // {
+    //     return $request->only($this->username(), 'new_password_name');
+    // }
+
+    // public function username(){
+    //     return 'phone_number';
+    // }
 
     public function __construct(UserRepositoryInterface $userRepository){
         return $this->userRepository = $userRepository;
@@ -22,18 +33,27 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request){
         $data = $request->all();
-        $data['password'] = bcrypt($data['password']);
-        if(Auth::attempt(['phone_number' => $data['phone_number'], 'password' => $data['password']])){
-            $user_info = UserInfo::where('phone_number', $data['phone_number'])->first();
+
+        $user = User::where('phone_number', $data['phone_number'])->first();
+        $result  = password_verify($data['password'], $user['password']);
+        
+        if($result){
+
+            unset($user['password']);
+            unset($user['updated_at']);
+
             return response()->json([
                 'status' => 'success',
-                'data'=> $user_info
+                'data'=> [
+                    "userInfo" => $user,
+                    'token' => $user->createToken('customer')->plainTextToken,
+                ]
             ]);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'msg'=> 'Đăng nhập thất bại.'
+                'msg'=> 'Xác thực không thành công.'
             ]);
         }
     }
@@ -89,24 +109,18 @@ class AuthController extends Controller
         }
 
         [$new_token, $new_user_info] = DB::transaction(function () use($request){
+            $new_user_info = $request->all();
 
-            $data_user['phone_number'] = $request['phone_number'];
-            $data_user['password'] = bcrypt($request['password']);
-            $new_user = $this->userRepository->create($data_user);
+            $new_user_info['password'] = bcrypt($request['password']);
+            $new_user_info['balance'] = 0;
+            $new_user = $this->userRepository->create($new_user_info);
+            
+            unset( $new_user['password']);
 
             $new_token = $new_user->createToken('customer')->plainTextToken;
 
-            $new_user_info = $request->all();
-            $new_user_info['user_id'] = $new_user['id'];
 
-            UserInfo::create($new_user_info);
-
-            unset($new_user_info['password']);
-            unset($new_user_info['checked']);
-            unset($new_user_info['user_id']);
-            unset($new_user_info['password_confirmation']);
-
-            return [$new_token, $new_user_info];
+            return [$new_token, $new_user];
         });
 
         return response()->json([

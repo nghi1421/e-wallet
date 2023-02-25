@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(LinkedRepositoryInterface::class, function () {
-            return new LinkedRepository(new Linked(), new Bank());
+            return new LinkedRepository(new Linked(), new Bank(), new User());
         });
     }
 

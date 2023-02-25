@@ -16,8 +16,8 @@ class CreateLinkedTable extends Migration
         Schema::create('linked', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_info_id');
-            $table->foreign('user_info_id')->references("id")->on('user_info');
+            $table->string('phone_number',15);
+            $table->foreign('phone_number')->references("phone_number")->on('users');
 
             $table->unsignedBigInteger('bank_id');
             $table->foreign('bank_id')->references("id")->on('banks');

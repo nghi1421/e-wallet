@@ -3,19 +3,38 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\Eloquent\BaseRepository;
 use App\Repositories\LinkedRepositoryInterface;
-use App\Models\Bank;
 
 class LinkedRepository extends BaseRepository implements LinkedRepositoryInterface{
 
-    protected $model_linked, $model_bank;
+    protected $model_linked, $model_bank, $model_user;
 
-    public function __construct($model_linked, $model_bank){
+    public function __construct($model_linked, $model_bank, $model_user){
         $this->model_linked = $model_linked;
         $this->model_bank = $model_bank;
+        $this->model_user = $model_user;
     }
 
     public function getAllLinked(){
         return $this->model_linked->all();
+    }
+
+    public function getAllLinkedUser($phone_number){
+        $user_info = $this->model_user->where('phone_number',$phone_number)->first();
+
+
+        if($user_info){
+            return response()->json([
+                'status' => 'success',
+                'data' => $this->model_linked->where('phone_number',$phone_number)->get()
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'msg' => 'Not found user'
+            ]);
+        }
+        
     }
 
     public function checkBankName($bank_name){
@@ -34,19 +53,13 @@ class LinkedRepository extends BaseRepository implements LinkedRepositoryInterfa
         }
     }
 
-    public function checkExistsBank($bank_account){
+    public function checkExistsBank($bank_account, $bank_id){
         $bank = $this->model_bank->whereColumn('bank_account_number', $bank_account);
         if($bank){
-            return response()->json([
-                'status' => "fail",
-                "msg" => "Tài khoản ngân hàng đã được liên kết.",
-            ]); 
+            if($bank['bank_id'] == $bank_id)
+                return true;
         }
-        else{
-            return response()->json([
-                'status' => "sucess",
-                'msg' => "Tài khoản ngân hàng có thể liên kết.",
-            ]);
-        }
+        return false;
+        
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Models\Bank;
-use App\Http\Models\UserInfo;
+use App\Http\Models\User;
 
 class Linked extends Model
 {
@@ -15,7 +15,7 @@ class Linked extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_info_id',
+        'phone_number',
         'bank_account_number',
         'bank_id',
         'checked',
@@ -23,8 +23,8 @@ class Linked extends Model
 
     public $timestamps = true;
 
-    public function userInfo(){
-        return $this->belongsTo(UserInfo::class);
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 
     public function bank(){

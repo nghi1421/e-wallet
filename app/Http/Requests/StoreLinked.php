@@ -24,15 +24,13 @@ class StoreLinked extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-            ],
-            'bank_name' => [
+            'bank_id' => [
                 'required',
             ],
             'bank_account_number'=>[
-                'required'
-            ]
+                'required',
+            ],
+            'checked' => ["required", "boolean"]
         ];
     }
 }
