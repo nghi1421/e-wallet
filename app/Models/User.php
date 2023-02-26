@@ -28,11 +28,12 @@ class User extends Authenticatable
         'password',
         'dob',
         'address',
-        'balance',
+        'balance'
     ];
 
     protected $casts = [
-        'phone_number' => 'string'
+        'phone_number' => 'string',
+        'balance' => 'int'
     ];
 
     // protected $hidden = [

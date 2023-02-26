@@ -25,7 +25,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource( '/link-bank-account', LinkedController::class);
     Route::get( '/get-linked/{phone_number}', [ LinkedController::class, 'getLinked']);
 
-    Route::resource('/payments/{phone_number}', PaymentController::class);
+    Route::prefix('/payments')->group(function () {
+        Route::get('/get-payments/{phone_number}', [PaymentController::class , "getAllPayments"]);
+        // Route::get('/{phone_number}', [ PaymentController::class, 'index']);
+        Route::post('/transfer-another-ewallet', [PaymentController::class, 'transferToAnotherEWallet']);
+    });
 
 });
     

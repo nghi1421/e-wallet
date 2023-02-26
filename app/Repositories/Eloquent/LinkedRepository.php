@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Eloquent;
 
 use App\Repositories\Eloquent\BaseRepository;
@@ -54,8 +55,8 @@ class LinkedRepository extends BaseRepository implements LinkedRepositoryInterfa
     }
 
     public function checkExistsBank($bank_account_number, $bank_id){
-        $bank = $this->model_bank->whereColumn('bank_account_number', $bank_account_number);
-        return $bank;
+        $bank = $this->model_linked->where('bank_account_number', $bank_account_number)->get();
+        return $bank == "[]" ? false: true;
     }
 
     public function storeLinked($data){
@@ -75,6 +76,6 @@ class LinkedRepository extends BaseRepository implements LinkedRepositoryInterfa
         if($linked){
             return $linked->delete();
         }
-        return false;
+        return 2;
     }
 }

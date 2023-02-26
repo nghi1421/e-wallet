@@ -49,6 +49,10 @@ class LinkedController extends Controller
         $data = $request->all();
         $bank = $this->linkedRepository->checkExistsBank($data['bank_account_number'], $data['bank_id']);
 
+        // return response()->json([
+        //     'data' => $bank
+        // ]);
+
         if($bank){
             return response()->json([
                 'status' => 'success',
@@ -63,7 +67,6 @@ class LinkedController extends Controller
                 'status' => 'success',
                 'data' => $new_linked
             ]);
-
         }
         else{
             return response()->json([
@@ -120,17 +123,22 @@ class LinkedController extends Controller
     public function destroy($id)
     {
         $result = $this->linkedRepository->removeLinked($id);
+        if($result ==2 ){
+            return response()->json([
+                'status' => 'success',
+                'msg' => 'Không tồn tại',
+            ]);
+        }
+
         if($result)
             return response()->json([
                 'status' => 'success',
-                // 'data'=> $result,
-                'msg' => 'Loại bỏ liên kết ngân hàng thành công.'
+                'msg' => 'Xóa liên kết tài khoản thành công.'
             ]);
-        else
-            return response()->json([
-                'status' => 'fail',
-                'msg' => 'Loại bỏ liên kết ngân hàng thất bại.'
-            ]);
+        return response()->json([
+            'status' => 'fail',
+            'msg' => 'Xóa liên kết tài khoản thất bại'
+        ]);
     }
 
     public function getLinked($phone_number){

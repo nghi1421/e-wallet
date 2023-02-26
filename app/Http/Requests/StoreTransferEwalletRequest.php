@@ -24,15 +24,22 @@ class StoreTransferEwalletRequest extends FormRequest
     public function rules()
     {
         return [
- 
             'phone_number_source' => [
                 'required',
-                'exists,users:phone_number'
+                'exists:users,phone_number'
+            ],
+            'phone_number_des' => [
+                'required',
+                'exists:users,phone_number'
             ],
             'money' => [
                 'required',
                 'numeric',
             ],
+            'note' => [
+                'string',
+            ],
+
         ];
     }
 }
