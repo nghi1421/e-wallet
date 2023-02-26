@@ -59,7 +59,6 @@ class LinkedController extends Controller
         if($request['checked']){
 
             $new_linked = $this->linkedRepository->storeLinked($data);
-
             return response()->json([
                 'status' => 'success',
                 'data' => $new_linked

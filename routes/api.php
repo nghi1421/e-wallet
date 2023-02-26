@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LinkedController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,9 +24,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/link-bank-account/{phone_number}', [LinkedController::class, 'index']);
     Route::resource( '/link-bank-account', LinkedController::class);
     Route::get( '/get-linked/{phone_number}', [ LinkedController::class, 'getLinked']);
-    // Route::get("/check", function (){
-    //     return "123";
-    // });
+
+    Route::resource('/payments/{phone_number}', PaymentController::class);
+
 });
     
 
