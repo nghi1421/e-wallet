@@ -1,2 +1,5 @@
 [start]
-cmd = "/bin/bash -ol pipefail -c composer install --ignore-platform-reqs"
+cmd = "./start.sh"
+
+[phases.start]
+cmds = "composer install --ignore-platform-reqs"
