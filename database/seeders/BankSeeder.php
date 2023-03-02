@@ -32,7 +32,7 @@ class BankSeeder extends Seeder
         ]);
 
         Bank::create([
-            'name' => 'A Bank',
+            'name' => 'D Bank',
             'phone_number' => '0123123123',
             'head_address' => 'tp Ho Chi Minh',
         ]);
