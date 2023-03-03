@@ -11,6 +11,7 @@ class HandleBankController extends Controller
     public function __construct(ConfigCallAPI $call_api){
         $this->call_api = $call_api;
     }
+
     public function getBankAccount(Request $request){
         $reuslt = $this->call_api->get('/bank-accounts/'.$request->type.'-'.$request->bank_account_number);
         
@@ -22,4 +23,5 @@ class HandleBankController extends Controller
         }
         return response($reuslt);
     }
+    
 }
