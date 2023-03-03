@@ -5,7 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LinkedController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\HandleBankController;
+
 /*
+
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -39,6 +42,7 @@ Route::post('/fake-otp', [AuthController::class,'fakeOTPCode']);
 Route::post('/check-phone-number', [AuthController::class,'checkOTPCode']);
 Route::post('/login', [AuthController::class,'login']);
 
+Route::post('/search-bank-account', [HandleBankController::class,'getBankAccount']);
 
 // Route::get('/test', [AuthController::Class, 'test']);
 
