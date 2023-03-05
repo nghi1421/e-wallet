@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLinked extends FormRequest
+class DepositMoneyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,10 @@ class StoreLinked extends FormRequest
     public function rules()
     {
         return [
-            'phone_number' => ['required'],
-            'bank_id' => [
-                'required',
-            ],
-            'bank_account_number'=>[
-                'required',
-            ]
+            "linked_id" => ['required', 'exists:linked,id'],
+            "money" => ["required", 'numeric'],
+            "phone_number_des" => ["required"],
+            "note" => ['string']
         ];
     }
 }

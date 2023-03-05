@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class Payment extends Model
 {
     use HasFactory;
@@ -13,12 +12,13 @@ class Payment extends Model
     protected $fillable = [
         'phone_number_source',
         'phone_number_des',
-        'bank_account_number_source',
-        'bank_account_number_des',
+        'bank_account_source',
+        'bank_account_des',
         'type',
         'status',
         'money',
-        "note"
+        "note",
+        "bank_id"
     ];
 
     protected $cats = [
@@ -27,5 +27,8 @@ class Payment extends Model
 
     public $timestamps = true;
 
+    public function bank(){
+        return $this->belongsTo(Bank::class);
+    }
     
 }

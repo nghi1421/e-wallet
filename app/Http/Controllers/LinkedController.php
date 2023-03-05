@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Repositories\LinkedRepositoryInterface;
 use App\Http\Requests\StoreLinked;
 
+
 class LinkedController extends Controller
 {
-     protected $linkedRepository;
+     protected $linkedRepository, $call_api;
 
     public function __construct(LinkedRepositoryInterface $linkedRepository){
-        return $this->linkedRepository = $linkedRepository;
+        $this->linkedRepository = $linkedRepository;
     }
 
     // protected 
@@ -22,10 +23,29 @@ class LinkedController extends Controller
      */
     public function index($phone_number)
     {
-        return response()->json([
-            'status' => 'success',
-            'data'=> $this->linkedRepository->getAllLinkedUser($phone_number)
-        ]);
+        $result = $this->linkedRepository->getAllLinkedUser($phone_number);
+        if(is_object($result)){
+            return response()->json([
+                'status' => 'success',
+                'data'=> $result
+            ]);
+        }
+        else{
+            if($result == 1)
+                return response()->json([
+                    'status' => 'fail',
+                    'codeErr' => $result,
+                    'msg'=> "Fail connecting"
+                ]);
+            elseif( $result == 2 )
+                return response()->json([
+                    'status' => 'fail',
+                    'codeErr' => $result,
+                    'msg'=> "User not found",
+                ]);
+            
+        }
+       
     }
 
     /**
@@ -55,24 +75,35 @@ class LinkedController extends Controller
 
         if($bank){
             return response()->json([
-                'status' => 'success',
-                'msg' => "Tài khoản đã liên kết",
+                'status' => 'fail',
+                'codeErr' => 1,
+                'msg' => "Bank account linked!!!",
             ]);
         }
 
-        if($request['checked']){
-
-            $new_linked = $this->linkedRepository->storeLinked($data);
+        $result = $this->linkedRepository->storeLinked($data);
+        
+        if(is_object($result)){
             return response()->json([
                 'status' => 'success',
-                'data' => $new_linked
+                'data' => $result,
             ]);
         }
         else{
-            return response()->json([
-                'status' => 'fail',
-                'msg' => "Xác thực tài khoản ngân hàng thất bại."
-            ]);
+            if($result ==1){
+                return response()->json([
+                    'status' => 'fail',
+                    'codeErr' => 2,
+                    'msg' => 'Bank account not found',
+                ]);
+            }
+            elseif($result == 2){
+                return response()->json([
+                    'status' => 'fail',
+                    'codeErr' => 3,
+                    'msg' => 'failed store'
+                ]);
+            }
         }
 
     }

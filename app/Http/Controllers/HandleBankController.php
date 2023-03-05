@@ -21,7 +21,9 @@ class HandleBankController extends Controller
                 'msg' => 'call API failed'
             ]);
         }
-        return response($reuslt);
+        return response()->json([
+            $reuslt
+        ]);
     }
-    
+
 }

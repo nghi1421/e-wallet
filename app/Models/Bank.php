@@ -24,4 +24,5 @@ class Bank extends Model
     public function linked(){
         return $this->hasMany(Linked::class);
     }
+
 }

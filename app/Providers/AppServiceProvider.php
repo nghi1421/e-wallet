@@ -13,7 +13,7 @@ use App\Models\User;
 use App\Models\Linked;
 use App\Models\Bank;
 use App\Models\Payment;
-
+use App\ConfigCallAPI;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -28,11 +28,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(LinkedRepositoryInterface::class, function () {
-            return new LinkedRepository(new Linked(), new Bank(), new User());
+            return new LinkedRepository(new Linked(), new Bank(), new User(), new ConfigCallAPI());
         });
 
         $this->app->singleton(PaymentRepositoryInterface::class, function () {
-            return new PaymentRepository(new Payment(), new Linked(), new Bank(), new User());
+            return new PaymentRepository(new Payment(), new Linked(), new Bank(), new User(), new ConfigCallAPI());
         });
     }
 

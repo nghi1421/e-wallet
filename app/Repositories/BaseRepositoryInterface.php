@@ -30,4 +30,6 @@ interface BaseRepositoryInterface {
     public function updateOrCreate(array $attributes, $value = []);
 
     public function whereColumn($column_name, $value);
+
+    public function whereOrderBy($column_name, $value, $order_by);
 }

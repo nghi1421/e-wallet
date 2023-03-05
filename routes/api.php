@@ -25,14 +25,22 @@ use App\Http\Controllers\HandleBankController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/link-bank-account/{phone_number}', [LinkedController::class, 'index']);
-    Route::resource( '/link-bank-account', LinkedController::class);
+    // Route::resource( '/link-bank-account', LinkedController::class);
     Route::get( '/get-linked/{phone_number}', [ LinkedController::class, 'getLinked']);
 
     Route::prefix('/payments')->group(function () {
         Route::get('/get-payments/{phone_number}', [PaymentController::class , "getAllPayments"]);
         // Route::get('/{phone_number}', [ PaymentController::class, 'index']);
         Route::post('/transfer-another-ewallet', [PaymentController::class, 'transferToAnotherEWallet']);
+
+        Route::post('/search-bank-account', [HandleBankController::class,'getBankAccount']);
+        
+        Route::post('/deposit-money', [PaymentController::class,'depositMoney']);
+
+        Route::post('/transfer-to-bank-account',[PaymentController::class,'transferBankAccount']);
     });
+
+
 
 });
     
@@ -42,7 +50,7 @@ Route::post('/fake-otp', [AuthController::class,'fakeOTPCode']);
 Route::post('/check-phone-number', [AuthController::class,'checkOTPCode']);
 Route::post('/login', [AuthController::class,'login']);
 
-Route::post('/search-bank-account', [HandleBankController::class,'getBankAccount']);
+
 
 // Route::get('/test', [AuthController::Class, 'test']);
 

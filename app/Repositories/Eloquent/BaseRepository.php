@@ -80,6 +80,10 @@ class BaseRepository implements BaseRepositoryInterface{
     }
 
     public function whereColumn($column_name, $value){
-        $this->model->where($column_name, $value)->first();
+        return $this->model->where($column_name, $value)->first();
+    }
+
+    public function whereOrderBy($column_name, $value, $order_by){
+        return $this->model->where($column_name, $value)->orderBy('created_at', $order_by)->get();
     }
 }
