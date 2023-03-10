@@ -6,9 +6,11 @@ use Illuminate\Support\ServiceProvider;
 use App\Repositories\UserRepositoryInterface;
 use App\Repositories\LinkedRepositoryInterface;
 use App\Repositories\PaymentRepositoryInterface;
+use App\Repositories\BankRepositoryInterface;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\LinkedRepository;
 use App\Repositories\Eloquent\PaymentRepository;
+use App\Repositories\Eloquent\BankRepository;
 use App\Models\User;
 use App\Models\Linked;
 use App\Models\Bank;
@@ -33,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(PaymentRepositoryInterface::class, function () {
             return new PaymentRepository(new Payment(), new Linked(), new Bank(), new User(), new ConfigCallAPI());
+        });
+
+        $this->app->singleton(BankRepositoryInterface::class, function(){
+            return new BankRepository(new Bank());
         });
     }
 

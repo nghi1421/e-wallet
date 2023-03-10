@@ -133,4 +133,15 @@ class AuthController extends Controller
         
     }
 
+    public function logout(){
+        $user = Auth::user();
+        $user->currentAccessToken()->delete();
+
+        return response([
+            'status' => 'success',
+            'msg' => "Đăng xuất thành công.",
+        ]);
+    }
+
+
 }

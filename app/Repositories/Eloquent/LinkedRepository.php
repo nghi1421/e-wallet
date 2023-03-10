@@ -17,17 +17,30 @@ class LinkedRepository extends BaseRepository implements LinkedRepositoryInterfa
     }
 
     public function getAllLinked(){
-        return $this->model_linked->all();
+        $links = $this->model_linked->all();
+        foreach ($links as $index=>$link){
+            $links[$index]['bank'] = $this->model_bank->find($links[$index]['bank_id']);
+            unset($links[$index]['bank_id']);
+        }
+        return $links;
     }
 
     public function getAllLinkedUser($phone_number){
         $user_info = $this->model_user->where('phone_number',$phone_number)->get();
 
+
         if($user_info == "[]"){
             return 2;
         }
         
+        // $result = $this->model_linked->where('phone_number', $phone_number)->get();
+
         $result = $this->model_linked->where('phone_number', $phone_number)->get();
+        foreach ($result as $index=>$link){
+            $result[$index]['bank'] = $this->model_bank->find($result[$index]['bank_id']);
+            unset($result[$index]['bank_id']);
+        }
+
         // $result = $this->model_linked->whereOrderBy('phone_number',$phone_number, 'acs');
         // $result = $this->model_linked->where('phone_number', $phone_number)->orderBy('created_at', $order_by)->get();
         if($result){

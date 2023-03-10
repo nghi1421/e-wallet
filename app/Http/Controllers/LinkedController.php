@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\LinkedRepositoryInterface;
 use App\Http\Requests\StoreLinked;
 
+use Illuminate\Support\Facades\Http;
 
 class LinkedController extends Controller
 {
@@ -174,6 +175,17 @@ class LinkedController extends Controller
 
     public function getLinked($phone_number){
         return $this->linkedRepository->getAllLinkedUser($phone_number);
+    }
+
+    public function testCallAPI(){
+        $response = Http::withoutVerifying()
+            ->withHeaders(['Accept' => 'application/json'])
+            ->post('https://project.ewallet.vn/e-wallet/public/api/login',
+            [
+                "phone_number" => "0987123123",
+                "password" => "ThanhNghi123`"
+            ]);
+        return json_decode($response, true);
     }
     
 }

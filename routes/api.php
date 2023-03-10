@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LinkedController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\HandleBankController;
-
+use App\Http\Controllers\BankController;
 /*
 
 |--------------------------------------------------------------------------
@@ -40,8 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/transfer-to-bank-account',[PaymentController::class,'transferBankAccount']);
     });
 
+    Route::get('/get-banks', [BankController::class, 'getAllBank']);
 
-
+    Route::get('/logout',[AuthController::class,'logout']);
 });
     
 
@@ -51,6 +52,7 @@ Route::post('/check-phone-number', [AuthController::class,'checkOTPCode']);
 Route::post('/login', [AuthController::class,'login']);
 
 
+Route::get('/test-api', [LinkedController::class,'testCallAPI']);
 
 // Route::get('/test', [AuthController::Class, 'test']);
 
