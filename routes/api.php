@@ -7,6 +7,7 @@ use App\Http\Controllers\LinkedController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\HandleBankController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\UserController;
 /*
 
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/transfer-to-bank-account',[PaymentController::class,'transferBankAccount']);
     });
 
+    Route::get('/get-balance/{phone_number}',[UserController::class,'getBalance']);
     Route::get('/get-banks', [BankController::class, 'getAllBank']);
 
     Route::get('/logout',[AuthController::class,'logout']);

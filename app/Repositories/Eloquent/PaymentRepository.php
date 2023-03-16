@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\Eloquent\BaseRepository;
 use App\Repositories\PaymentRepositoryInterface;
 use Illuminate\Support\Facades\DB;  
+use Carbon\Carbon;
 use App\ConfigCallAPI;
 class PaymentRepository extends BaseRepository implements PaymentRepositoryInterface{
 
@@ -23,6 +24,16 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
                                         ->orWhere('phone_number_des', '=', $phone_number)
                                         ->orderBy('updated_at', 'desc')->get();
         foreach($payments as $index => $payment){
+            
+            // $payments[$index]['type'] = date('H:i:s d/m/Y', strtotime($user->created_at))
+            //date_format(strtotime($payments[$index]['created_at']), 'H:i:s d/m/Y');
+            //H:i:s d/m/Y
+            $payments[$index]['create'] = Carbon::parse($payments[$index]['created_at'])->format('H:i:s d/m/Y');
+            $payments[$index]['update'] = Carbon::parse($payments[$index]['updated_at'])->format('H:i:s d/m/Y');
+            
+            unset($payments[$index]['created_at']);
+            unset($payments[$index]['updated_at']);
+
             if($payment['status']==0){
                 $payment['status'] = "Giao dịch thất bại";
             }

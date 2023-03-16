@@ -18,7 +18,9 @@ class Payment extends Model
         'status',
         'money',
         "note",
-        "bank_id"
+        "bank_id",
+        'created_at',
+        'updated_at',
     ];
 
     protected $cats = [

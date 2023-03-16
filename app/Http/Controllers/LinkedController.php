@@ -180,7 +180,7 @@ class LinkedController extends Controller
     public function testCallAPI(){
         $response = Http::withoutVerifying()
             ->withHeaders(['Accept' => 'application/json'])
-            ->post('https://project.ewallet.vn/e-wallet/public/api/login',
+            ->post('ntkewallet.fun/e-wallet/public/api/login',
             [
                 "phone_number" => "0987123123",
                 "password" => "ThanhNghi123`"

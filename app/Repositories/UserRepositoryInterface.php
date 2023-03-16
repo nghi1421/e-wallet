@@ -12,5 +12,7 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
 
     // public function logout($user);
     public function showMessage($message);
+
+    public function getBalance($phone_number);
     
 }
