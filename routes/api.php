@@ -26,7 +26,7 @@ use App\Http\Controllers\UserController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/link-bank-account/{phone_number}', [LinkedController::class, 'index']);
-    // Route::resource( '/link-bank-account', LinkedController::class);
+    Route::resource( '/link-bank-account', LinkedController::class);
     Route::get( '/get-linked/{phone_number}', [ LinkedController::class, 'getLinked']);
 
     Route::prefix('/payments')->group(function () {
